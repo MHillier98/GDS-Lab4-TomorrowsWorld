@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Block
   - Barrel
+  - Hammer
   layers:
   - Default
   - TransparentFX
