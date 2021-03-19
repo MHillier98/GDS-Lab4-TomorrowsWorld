@@ -11,6 +11,10 @@ public class PlayerController : MonoBehaviour
     private float horizontalMovement = 0.0f;
     public bool isGrounded = false;
 
+    public bool hasHammer = false;
+    public Animator anim;
+
+
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -20,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Jump();
+       
     }
 
     private void FixedUpdate()
@@ -32,6 +37,16 @@ public class PlayerController : MonoBehaviour
         if (collider.tag == "Block")
         {
             isGrounded = true;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Hammer")
+        {
+            hasHammer = true;
+            anim.SetBool("hasHammer", true);
+            Destroy(collision.gameObject);
         }
     }
 
