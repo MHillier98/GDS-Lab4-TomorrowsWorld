@@ -1,19 +1,16 @@
 fileFormatVersion: 2
-guid: 92857dc78dfca364190200c61a94676c
+guid: c347f281e47fb504a9a16f617c1000a7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6836898069527882734
-    second: HammerTime_0
+      213: 5076842151800240287
+    second: HammerTime 1_0
   - first:
-      213: -2385096638884831569
-    second: HammerTime_1
+      213: 3872788571103869974
+    second: HammerTime 1_1
   - first:
-      213: 5326557725128836549
-    second: HammerTime_2
-  - first:
-      213: 6857789875649016326
-    second: HammerTime_3
+      213: 4655461079818646430
+    second: HammerTime 1_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -103,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: HammerTime_0
+      name: HammerTime 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -117,14 +114,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eeb63cf129a81ee50800000000000000
-      internalID: 6836898069527882734
+      spriteID: f9878cee901947640800000000000000
+      internalID: 5076842151800240287
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HammerTime_1
+      name: HammerTime 1_1
       rect:
         serializedVersion: 2
         x: 16
@@ -138,14 +135,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fae9a446e3f66eed0800000000000000
-      internalID: -2385096638884831569
+      spriteID: 61cb6debfa8eeb530800000000000000
+      internalID: 3872788571103869974
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: HammerTime_2
+      name: HammerTime 1_2
       rect:
         serializedVersion: 2
         x: 0
@@ -159,29 +156,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c5cae9970cbbe940800000000000000
-      internalID: 5326557725128836549
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HammerTime_3
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 602745ace83cb2f50800000000000000
-      internalID: 6857789875649016326
+      spriteID: e933f38bf258b9040800000000000000
+      internalID: 4655461079818646430
       vertices: []
       indices: 
       edges: []
