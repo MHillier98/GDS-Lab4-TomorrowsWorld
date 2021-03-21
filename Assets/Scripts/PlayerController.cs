@@ -4,14 +4,17 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
+    [SerializeField]
+    private BoxCollider2D Box;
 
     private readonly float speed = 5.0f;
     private readonly float jumpForce = 15000.0f;
 
     private float horizontalMovement = 0.0f;
-    private float verticalMovement = 0.0f;
+    public float verticalMovement = 0.0f;
     public bool isGrounded = false;
     public bool isTouchingLadder = false;
+    public bool goingDown = false;
 
     public bool hasHammer = false;
     public Animator anim;
@@ -21,6 +24,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
+        Box = GetComponent<BoxCollider2D>();
     }
 
     private void Update()
@@ -80,31 +84,38 @@ public class PlayerController : MonoBehaviour
     {
         horizontalMovement = Input.GetAxis("Horizontal");
 
-        if(isTouchingLadder)
+        if (isTouchingLadder)
         {
             verticalMovement = Input.GetAxis("Vertical");
-            if(verticalMovement > 0)
+            if (verticalMovement != 0)
             {
                 rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
             }
-            /*if(!isGrounded){
-                rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-            }else{
-                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            }*/
         }
-        else{
+        else
+        {
             verticalMovement = 0;
-           // rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
-        if(!isTouchingLadder)
+        if (!isTouchingLadder || verticalMovement == 0)
         {
             rb.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
         }
 
-        Vector2 MovementDir = new Vector2(horizontalMovement * speed * 7f, verticalMovement * speed * 10f);
-        rb.AddForce(MovementDir);
-
+        if (verticalMovement >= 0)
+        {
+            Vector2 MovementDir = new Vector2(horizontalMovement * speed * 7f, verticalMovement * speed * 10f);
+            rb.AddForce(MovementDir);
+        }
+        if(verticalMovement < 0 && isTouchingLadder)
+        {
+            //need some code that will allow the player to move down the ladder
+            //I tried to implement some collision ignoring things but nothing seemed to work properly
+            goingDown = true;
+        }
+        else
+        {
+            goingDown = false;
+        }
 
         if (horizontalMovement > 0)
         {
@@ -113,7 +124,6 @@ public class PlayerController : MonoBehaviour
         else if (horizontalMovement < 0)
         {
             sprite.flipX = true;
-        }
-        
+        }     
     }
 }
