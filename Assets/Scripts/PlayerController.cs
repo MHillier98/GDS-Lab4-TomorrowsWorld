@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private float horizontalMovement = 0.0f;
     private float verticalMovement = 0.0f;
     public bool isGrounded = false;
-    private bool isTouchingLadder = false;
+    public bool isTouchingLadder = false;
 
     public bool hasHammer = false;
     public Animator anim;
@@ -80,21 +80,31 @@ public class PlayerController : MonoBehaviour
     {
         horizontalMovement = Input.GetAxis("Horizontal");
 
-        if(isTouchingLadder){
+        if(isTouchingLadder)
+        {
             verticalMovement = Input.GetAxis("Vertical");
-            
+            if(verticalMovement > 0)
+            {
+                rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+            }
             /*if(!isGrounded){
                 rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
             }else{
                 rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             }*/
-        }else{
+        }
+        else{
             verticalMovement = 0;
            // rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
+        if(!isTouchingLadder)
+        {
+            rb.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
         }
 
         Vector2 MovementDir = new Vector2(horizontalMovement * speed * 7f, verticalMovement * speed * 10f);
         rb.AddForce(MovementDir);
+
 
         if (horizontalMovement > 0)
         {
