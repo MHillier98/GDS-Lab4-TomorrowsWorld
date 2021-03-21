@@ -9,7 +9,6 @@ public class LifeScript : MonoBehaviour
     public GameObject heart1, heart2, heart3;
     public static int health;
 
-    // Start is called before the first frame update
     void Start()
     {
         health = 3;
@@ -18,11 +17,12 @@ public class LifeScript : MonoBehaviour
         heart3.gameObject.SetActive(true);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (health > 3)
+        {
             health = 3;
+        }
 
         switch (health)
         {
