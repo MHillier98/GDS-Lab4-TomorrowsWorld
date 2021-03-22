@@ -8,6 +8,7 @@ public class LifeScript : MonoBehaviour
 {
     public GameObject heart1, heart2, heart3;
     public static int health;
+    public PlayerController player;
 
     void Start()
     {
@@ -45,6 +46,7 @@ public class LifeScript : MonoBehaviour
                 heart1.gameObject.SetActive(false);
                 heart2.gameObject.SetActive(false);
                 heart3.gameObject.SetActive(false);
+                AudioSource.PlayClipAtPoint(player.GetComponent<PlayerController>().playerSounds[1], Vector2.zero);
                 //SceneManager.LoadScene("GameOverScene", LoadSceneMode.Single);
                 break;
         }
