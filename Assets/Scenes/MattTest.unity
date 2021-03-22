@@ -1881,14 +1881,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Platform
       objectReference: {fileID: 0}
-    - target: {fileID: 8549862853345779188, guid: d113928e82498d6458969c5e9dbd0d63, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549862853345779188, guid: d113928e82498d6458969c5e9dbd0d63, type: 3}
-      propertyPath: m_TagString
-      value: Block
-      objectReference: {fileID: 0}
     - target: {fileID: 8549862853345779193, guid: d113928e82498d6458969c5e9dbd0d63, type: 3}
       propertyPath: m_RootOrder
       value: 2
