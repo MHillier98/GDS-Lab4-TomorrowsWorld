@@ -161,4 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ed5abec1ef45c54385638fe52fa18df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  verticalMovement: 0
   isGrounded: 0
+  isTouchingLadder: 0
+  LadderCheck: {fileID: 0}
+  hasHammer: 0
+  anim: {fileID: 0}
