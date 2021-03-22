@@ -8,7 +8,7 @@ public class BarrelController : MonoBehaviour
     {
         if (collider.tag == "Player")
         {
-            Destroy(collider.gameObject);
+            LifeScript.health -= 1;
         }
     }
 }
