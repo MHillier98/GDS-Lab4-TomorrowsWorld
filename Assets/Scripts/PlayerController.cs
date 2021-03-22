@@ -15,6 +15,10 @@ public class PlayerController : MonoBehaviour
 
     public bool hasHammer = false;
     public Animator anim;
+    public Transform attackPoint;
+    private float attackRange = 0.9f;
+    public LayerMask enemyLayers;
+    public Transform HammerPickup;
 
 
     private void Start()
@@ -26,7 +30,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Jump();
-       
+        Attack();
     }
 
     private void FixedUpdate()
@@ -53,12 +57,38 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Attack()
+    {
+        if (Input.GetKeyDown(KeyCode.F) && hasHammer == true)
+        {
+            anim.SetTrigger("Attack");
+            rb.velocity = new Vector2(0f, 0f);
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                Destroy(enemy.gameObject);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.G) && hasHammer == true)
+        {
+            hasHammer = false;
+            Instantiate(HammerPickup, new Vector2((attackPoint.position.x - 1f), attackPoint.position.y), Quaternion.identity);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return;
+
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Hammer")
         {
             hasHammer = true;
-            anim.SetBool("hasHammer", true);
             Destroy(collision.gameObject);
         }
     }
@@ -93,7 +123,7 @@ public class PlayerController : MonoBehaviour
            // rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
 
-        Vector2 MovementDir = new Vector2(horizontalMovement * speed * 7f, verticalMovement * speed * 10f);
+        Vector2 MovementDir = new Vector2(horizontalMovement * speed * 6f, verticalMovement * speed * 10f);
         rb.AddForce(MovementDir);
 
         if (horizontalMovement > 0)
@@ -104,6 +134,12 @@ public class PlayerController : MonoBehaviour
         {
             sprite.flipX = true;
         }
-        
+        if (MovementDir == new Vector2(0f, 0f))
+        {
+            anim.SetBool("isMoving", false);
+        }
+        else anim.SetBool("isMoving", true);
+
     }
+
 }
