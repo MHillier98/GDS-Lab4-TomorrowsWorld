@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetTrigger("Attack");
             AudioSource.PlayClipAtPoint(playerSounds[3], Vector2.zero);
-            
+
             rb.velocity = new Vector2(0f, 0f);
             Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
 
@@ -131,7 +131,8 @@ public class PlayerController : MonoBehaviour
     {
         horizontalMovement = Input.GetAxis("Horizontal");
 
-        if(horizontalMovement!=0 && !audioSource.isPlaying && isGrounded){
+        if (horizontalMovement != 0 && !audioSource.isPlaying && isGrounded)
+        {
             audioSource.clip = playerSounds[4];
             audioSource.Play();
         }
