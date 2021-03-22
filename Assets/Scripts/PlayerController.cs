@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     private float horizontalMovement = 0.0f;
     public float verticalMovement = 0.0f;
-    
+
     public bool isGrounded = false;
     public bool isTouchingLadder = false;
     public bool goingDown = false;
@@ -67,29 +67,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Attack()
-    {
-        if (Input.GetKeyDown(KeyCode.F) && hasHammer == true)
-        {
-            anim.SetTrigger("Attack");
-            rb.velocity = new Vector2(0f, 0f);
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-            foreach (Collider2D enemy in hitEnemies)
-            {
-                Destroy(enemy.gameObject);
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.G) && hasHammer == true)
-        {
-            hasHammer = false;
-            Instantiate(HammerPickup, new Vector2((attackPoint.position.x - 1f), attackPoint.position.y), Quaternion.identity);
-        }
-    }
-
     private void OnDrawGizmosSelected()
     {
         if (attackPoint == null)
+        {
             return;
+        }
 
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
@@ -116,6 +99,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Attack()
+    {
+        if (Input.GetKeyDown(KeyCode.F) && hasHammer == true)
+        {
+            anim.SetTrigger("Attack");
+            rb.velocity = new Vector2(0f, 0f);
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                Destroy(enemy.gameObject);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.G) && hasHammer == true)
+        {
+            hasHammer = false;
+            Instantiate(HammerPickup, new Vector2((attackPoint.position.x - 1f), attackPoint.position.y), Quaternion.identity);
+        }
+    }
+
     private void Move()
     {
         horizontalMovement = Input.GetAxis("Horizontal");
@@ -132,7 +136,7 @@ public class PlayerController : MonoBehaviour
         {
             verticalMovement = 0;
         }
-        
+
         if (!isTouchingLadder || verticalMovement == 0)
         {
             rb.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
@@ -142,19 +146,28 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 MovementDir = new Vector2(horizontalMovement * speed * 7f, verticalMovement * speed * 10f);
             rb.AddForce(MovementDir);
+
+            if (MovementDir == new Vector2(0f, 0f))
+            {
+                anim.SetBool("isMoving", false);
+            }
+            else
+            {
+                anim.SetBool("isMoving", true);
+            }
         }
-        
-        if(verticalMovement < 0 && isTouchingLadder)
+
+        if (verticalMovement < 0 && isTouchingLadder)
         {
-            //need some code that will allow the player to move down the ladder
-            //I tried to implement some collision ignoring things but nothing seemed to work properly
+            // This needs some code that will allow the player to move down the ladder
+            // I tried to implement some collision ignoring things but nothing seemed to work properly
             goingDown = true;
         }
         else
         {
             goingDown = false;
         }
-        
+
         if (horizontalMovement > 0)
         {
             sprite.flipX = false;
@@ -163,18 +176,10 @@ public class PlayerController : MonoBehaviour
         {
             sprite.flipX = true;
         }
-        if (MovementDir == new Vector2(0f, 0f))
-        {
-            anim.SetBool("isMoving", false);
-        }
-        else anim.SetBool("isMoving", true);
-
-        }     
     }
 
     private void ApplyWindForce()
     {
         rb.AddForce(new Vector2(-14.0f, 0.0f));
     }
-
 }
