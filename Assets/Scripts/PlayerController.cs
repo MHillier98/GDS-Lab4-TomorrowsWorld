@@ -12,13 +12,14 @@ public class PlayerController : MonoBehaviour
 
     private float horizontalMovement = 0.0f;
     public float verticalMovement = 0.0f;
+    
     public bool isGrounded = false;
     public bool isTouchingLadder = false;
     public bool goingDown = false;
+    public bool isWindy = false;
 
     public bool hasHammer = false;
     public Animator anim;
-
 
     private void Start()
     {
@@ -30,12 +31,15 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         Jump();
-       
     }
 
     private void FixedUpdate()
     {
         Move();
+        if (isWindy)
+        {
+            ApplyWindForce();
+        }
     }
 
     public void OnTriggerStay2D(Collider2D collider)
@@ -44,7 +48,7 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
         }
-        if (collider.tag == "Ladder")
+        else if (collider.tag == "Ladder")
         {
             isTouchingLadder = true;
         }
@@ -52,7 +56,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnTriggerExit2D(Collider2D other)
     {
-        if(other.tag == "Ladder"){
+        if (other.tag == "Ladder")
+        {
             isTouchingLadder = false;
         }
     }
@@ -96,6 +101,7 @@ public class PlayerController : MonoBehaviour
         {
             verticalMovement = 0;
         }
+        
         if (!isTouchingLadder || verticalMovement == 0)
         {
             rb.constraints = RigidbodyConstraints2D.None | RigidbodyConstraints2D.FreezeRotation;
@@ -106,6 +112,7 @@ public class PlayerController : MonoBehaviour
             Vector2 MovementDir = new Vector2(horizontalMovement * speed * 7f, verticalMovement * speed * 10f);
             rb.AddForce(MovementDir);
         }
+        
         if(verticalMovement < 0 && isTouchingLadder)
         {
             //need some code that will allow the player to move down the ladder
@@ -125,5 +132,10 @@ public class PlayerController : MonoBehaviour
         {
             sprite.flipX = true;
         }     
+    }
+
+    private void ApplyWindForce()
+    {
+        rb.AddForce(new Vector2(-14.0f, 0.0f));
     }
 }
