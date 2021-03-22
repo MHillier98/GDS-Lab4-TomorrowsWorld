@@ -6,10 +6,12 @@ public class BossMonkeScript : MonoBehaviour
 {
     public GameObject Barrel;
     public float ThrowSpeed = 3.0f;
+    private Animator anim;
 
     void Start()
     {
         InvokeRepeating("ThrowBarrel", 3.0f, 3.0f);
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -19,10 +21,18 @@ public class BossMonkeScript : MonoBehaviour
 
     void ThrowBarrel()
     {
+        anim.SetBool("Throwing", true);
         Vector2 BarrelPos = transform.position;
 
         GameObject BarrelToThrow = Instantiate(Barrel, BarrelPos, Quaternion.identity);
         BarrelToThrow.GetComponent<Rigidbody2D>().velocity = new Vector2(ThrowSpeed, 0);
 
+        StartCoroutine(EndThrow());
+    }
+
+    IEnumerator EndThrow()
+    {
+        yield return new WaitForSeconds(0.5f);
+        anim.SetBool("Throwing", false);
     }
 }
