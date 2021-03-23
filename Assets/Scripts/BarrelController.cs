@@ -19,18 +19,19 @@ public class BarrelController : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "JakeScene")
         {
-            if (this.transform.position.y <= 4.5f && this.transform.position.y >= 4.05f || this.transform.position.y <= 0.5f &&
-                this.transform.position.y >= -0.5f || this.transform.position.y <= -3.5f && this.transform.position.y >= -4.5f)
+            if (transform.position.y <= 4.5f && transform.position.y >= 4.05f || transform.position.y <= 0.5f &&
+                transform.position.y >= -0.5f || transform.position.y <= -3.5f && transform.position.y >= -4.5f)
             {
                 rb.velocity = new Vector2(-speed, -2.0f);
             }
-            if (this.transform.position.y <= 2.5f && this.transform.position.y >= 1.5f ||
-                this.transform.position.y <= -1.5f && this.transform.position.y >= -2.5f)
+
+            if (transform.position.y <= 2.5f && transform.position.y >= 1.5f ||
+                transform.position.y <= -1.5f && transform.position.y >= -2.5f)
             {
                 rb.velocity = new Vector2(speed, -2.0f);
             }
 
-            if(this.transform.position.y <= -6)
+            if (transform.position.y <= -6)
             {
                 Destroy(gameObject);
             }

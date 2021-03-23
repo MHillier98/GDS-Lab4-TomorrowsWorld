@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
@@ -38,7 +39,10 @@ public class PlayerController : MonoBehaviour
         Box = GetComponent<BoxCollider2D>();
         audioSource = GetComponent<AudioSource>();
 
-        hammerRules.gameObject.SetActive(false);
+        if (hammerRules != null)
+        {
+            hammerRules.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
@@ -50,9 +54,28 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+
         if (isWindy)
         {
             ApplyWindForce();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Hammer")
+        {
+            if (hammerRules != null)
+            {
+                hammerRules.gameObject.SetActive(true);
+            }
+
+            hasHammer = true;
+            Destroy(collision.gameObject);
+        }
+        else if (collision.tag == "Olive")
+        {
+            SceneManager.LoadScene("JakeScene2", LoadSceneMode.Single);
         }
     }
 
@@ -84,16 +107,6 @@ public class PlayerController : MonoBehaviour
         }
 
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Hammer")
-        {
-            hasHammer = true;
-            hammerRules.gameObject.SetActive(true);
-            Destroy(collision.gameObject);
-        }
     }
 
     private void Jump()
@@ -196,6 +209,12 @@ public class PlayerController : MonoBehaviour
         else if (horizontalMovement < 0)
         {
             sprite.flipX = true;
+        }
+
+        if (transform.position.y <= -7)
+        {
+            //Destroy(gameObject); // not really any point if we load the starting scene?
+            SceneManager.LoadScene("JakeScene", LoadSceneMode.Single);
         }
     }
 
