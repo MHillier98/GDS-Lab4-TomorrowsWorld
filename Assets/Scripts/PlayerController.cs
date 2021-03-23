@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,12 +28,17 @@ public class PlayerController : MonoBehaviour
     public Transform HammerPickup;
     public AudioClip[] playerSounds;    //0 = Player Damaged, 1 = Player Death, 2 = Player Jump, 3 = Player Swing Weapon, 4 = Player Walk, 5 = Player Win
 
+    [SerializeField]
+    private Text hammerRules;
+
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         Box = GetComponent<BoxCollider2D>();
         audioSource = GetComponent<AudioSource>();
+
+        hammerRules.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -85,6 +91,7 @@ public class PlayerController : MonoBehaviour
         if (collision.tag == "Hammer")
         {
             hasHammer = true;
+            hammerRules.gameObject.SetActive(true);
             Destroy(collision.gameObject);
         }
     }
@@ -123,6 +130,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.G) && hasHammer == true)
         {
             hasHammer = false;
+            hammerRules.gameObject.SetActive(false);
             Instantiate(HammerPickup, new Vector2((attackPoint.position.x - 1f), attackPoint.position.y), Quaternion.identity);
         }
     }
