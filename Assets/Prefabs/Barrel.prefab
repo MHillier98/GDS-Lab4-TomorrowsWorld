@@ -135,6 +135,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09bee4ea8ed3e1f45aa3fdd0de230bb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  speed: 15
+  IgnoreLocation: 0
+  breakSound: {fileID: 8300000, guid: 91168b5c65c874bad838a3d21f82256a, type: 3}
 --- !u!58 &3391366747326155404
 CircleCollider2D:
   m_ObjectHideFlags: 0

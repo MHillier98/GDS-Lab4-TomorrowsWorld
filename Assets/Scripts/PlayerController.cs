@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer sprite;
     [SerializeField]
     private BoxCollider2D Box;
+    private AudioSource audioSource;
 
     private readonly float speed = 5.0f;
     private readonly float jumpForce = 15000.0f;
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private float attackRange = 0.9f;
     public LayerMask enemyLayers;
     public Transform HammerPickup;
+    public AudioClip[] playerSounds;    //0 = Player Damaged, 1 = Player Death, 2 = Player Jump, 3 = Player Swing Weapon, 4 = Player Walk, 5 = Player Win
 
     [SerializeField]
     private Text hammerRules;
@@ -34,6 +36,7 @@ public class PlayerController : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         Box = GetComponent<BoxCollider2D>();
+        audioSource = GetComponent<AudioSource>();
 
         hammerRules.gameObject.SetActive(false);
     }
@@ -99,6 +102,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                AudioSource.PlayClipAtPoint(playerSounds[2], Vector2.zero);
                 rb.AddForce(Vector2.up * jumpForce);
             }
 
@@ -111,12 +115,15 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && hasHammer == true)
         {
             anim.SetTrigger("Attack");
+            AudioSource.PlayClipAtPoint(playerSounds[3], Vector2.zero);
+
             rb.velocity = new Vector2(0f, 0f);
             Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
 
             foreach (Collider2D enemy in hitEnemies)
             {
-                Destroy(enemy.gameObject);
+                enemy.GetComponent<AudioSource>().Play();
+                Destroy(enemy.gameObject, 1f);
             }
         }
 
@@ -131,6 +138,12 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         horizontalMovement = Input.GetAxis("Horizontal");
+
+        if (horizontalMovement != 0 && !audioSource.isPlaying && isGrounded)
+        {
+            audioSource.clip = playerSounds[4];
+            audioSource.Play();
+        }
 
         if (isTouchingLadder)
         {
