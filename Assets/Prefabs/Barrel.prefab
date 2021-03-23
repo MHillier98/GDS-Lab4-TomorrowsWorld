@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  speed: 15
+  speed: 1.5
   IgnoreLocation: 0
   breakSound: {fileID: 8300000, guid: 91168b5c65c874bad838a3d21f82256a, type: 3}
 --- !u!58 &3391366747326155404

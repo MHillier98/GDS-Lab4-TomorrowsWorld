@@ -5,7 +5,7 @@ using UnityEngine;
 public class BarrelController : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public float speed = 15.0f;
+    public float speed;
     public bool IgnoreLocation = false;
     public AudioClip breakSound;
 
