@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BarrelController : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public float speed = 15.0f;
+    public float speed;
     public bool IgnoreLocation = false;
     public AudioClip breakSound;
 
@@ -16,15 +17,23 @@ public class BarrelController : MonoBehaviour
 
     private void Update()
     {
-        if (this.transform.position.y <= 4.5f && this.transform.position.y >= 4.05f || this.transform.position.y <= 0.5f &&
-            this.transform.position.y >= -0.5f || this.transform.position.y <= -3.5f && this.transform.position.y >= -4.5f)
+        if (SceneManager.GetActiveScene().name == "JakeScene")
         {
-            rb.velocity = new Vector2(-speed, -2.0f);
-        }
-        if (this.transform.position.y <= 2.5f && this.transform.position.y >= 1.5f ||
-            this.transform.position.y <= -1.5f && this.transform.position.y >= -2.5f)
-        {
-            rb.velocity = new Vector2(speed, -2.0f);
+            if (this.transform.position.y <= 4.5f && this.transform.position.y >= 4.05f || this.transform.position.y <= 0.5f &&
+                this.transform.position.y >= -0.5f || this.transform.position.y <= -3.5f && this.transform.position.y >= -4.5f)
+            {
+                rb.velocity = new Vector2(-speed, -2.0f);
+            }
+            if (this.transform.position.y <= 2.5f && this.transform.position.y >= 1.5f ||
+                this.transform.position.y <= -1.5f && this.transform.position.y >= -2.5f)
+            {
+                rb.velocity = new Vector2(speed, -2.0f);
+            }
+
+            if(this.transform.position.y <= -6)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 

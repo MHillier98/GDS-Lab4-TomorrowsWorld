@@ -12,9 +12,16 @@ public class BossMonkeScript : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating("ThrowBarrel", 3.0f, 3.0f);
-        anim = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>(); //0 = Boss Monkey Death, 1 = Boss Monkey Moving to Next Level, 2 = Boss Monkey Throw
+        if (Barrel)
+        {
+            InvokeRepeating("ThrowBarrel", 3.0f, 3.0f);
+            anim = GetComponent<Animator>();
+            audioSource = GetComponent<AudioSource>(); //0 = Boss Monkey Death, 1 = Boss Monkey Moving to Next Level, 2 = Boss Monkey Throw
+        }
+        else
+        {
+            return;
+        }
     }
 
     void ThrowBarrel()
