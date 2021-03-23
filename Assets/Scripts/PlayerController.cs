@@ -20,14 +20,14 @@ public class PlayerController : MonoBehaviour
     public bool isTouchingLadder = false;
     public bool goingDown = false;
     public bool isWindy = false;
-
     public bool hasHammer = false;
+
     public Animator anim;
     public Transform attackPoint;
     private float attackRange = 0.9f;
     public LayerMask enemyLayers;
     public Transform HammerPickup;
-    public AudioClip[] playerSounds;    //0 = Player Damaged, 1 = Player Death, 2 = Player Jump, 3 = Player Swing Weapon, 4 = Player Walk, 5 = Player Win
+    public AudioClip[] playerSounds; //0 = Player Damaged, 1 = Player Death, 2 = Player Jump, 3 = Player Swing Weapon, 4 = Player Walk, 5 = Player Win
 
     [SerializeField]
     private Text hammerRules;
@@ -38,6 +38,8 @@ public class PlayerController : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         Box = GetComponent<BoxCollider2D>();
         audioSource = GetComponent<AudioSource>();
+
+        hasHammer = false;
 
         if (hammerRules != null)
         {
@@ -135,8 +137,15 @@ public class PlayerController : MonoBehaviour
 
             foreach (Collider2D enemy in hitEnemies)
             {
-                enemy.GetComponent<AudioSource>().Play();
-                Destroy(enemy.gameObject, 1f);
+                //Debug.Break();
+
+                AudioSource audio = enemy.GetComponent<AudioSource>();
+                if (audio != null)
+                {
+                    audio.Play();
+                }
+
+                Destroy(enemy.gameObject);
             }
         }
 
@@ -205,10 +214,12 @@ public class PlayerController : MonoBehaviour
         if (horizontalMovement > 0)
         {
             sprite.flipX = false;
+            attackPoint.position = new Vector2(transform.position.x + 0.5f, transform.position.y);
         }
         else if (horizontalMovement < 0)
         {
             sprite.flipX = true;
+            attackPoint.position = new Vector2(transform.position.x - 0.5f, transform.position.y);
         }
 
         if (transform.position.y <= -7)

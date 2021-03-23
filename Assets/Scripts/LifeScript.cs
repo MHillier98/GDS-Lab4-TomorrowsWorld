@@ -48,7 +48,7 @@ public class LifeScript : MonoBehaviour
                     heart3.gameObject.SetActive(false);
                     break;
                 }
-            case 0:
+            default:
                 {
                     heart1.gameObject.SetActive(false);
                     heart2.gameObject.SetActive(false);
