@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
@@ -19,14 +20,14 @@ public class PlayerController : MonoBehaviour
     public bool isTouchingLadder = false;
     public bool goingDown = false;
     public bool isWindy = false;
-
     public bool hasHammer = false;
+
     public Animator anim;
     public Transform attackPoint;
     private float attackRange = 0.9f;
     public LayerMask enemyLayers;
     public Transform HammerPickup;
-    public AudioClip[] playerSounds;    //0 = Player Damaged, 1 = Player Death, 2 = Player Jump, 3 = Player Swing Weapon, 4 = Player Walk, 5 = Player Win
+    public AudioClip[] playerSounds; //0 = Player Damaged, 1 = Player Death, 2 = Player Jump, 3 = Player Swing Weapon, 4 = Player Walk, 5 = Player Win
 
     [SerializeField]
     private Text hammerRules;
@@ -38,7 +39,12 @@ public class PlayerController : MonoBehaviour
         Box = GetComponent<BoxCollider2D>();
         audioSource = GetComponent<AudioSource>();
 
-        hammerRules.gameObject.SetActive(false);
+        hasHammer = false;
+
+        if (hammerRules != null)
+        {
+            hammerRules.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
@@ -50,9 +56,28 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+
         if (isWindy)
         {
             ApplyWindForce();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Hammer")
+        {
+            if (hammerRules != null)
+            {
+                hammerRules.gameObject.SetActive(true);
+            }
+
+            hasHammer = true;
+            Destroy(collision.gameObject);
+        }
+        else if (collision.tag == "Olive")
+        {
+            SceneManager.LoadScene("JakeScene2", LoadSceneMode.Single);
         }
     }
 
@@ -86,16 +111,6 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Hammer")
-        {
-            hasHammer = true;
-            hammerRules.gameObject.SetActive(true);
-            Destroy(collision.gameObject);
-        }
-    }
-
     private void Jump()
     {
         if (isGrounded)
@@ -122,8 +137,15 @@ public class PlayerController : MonoBehaviour
 
             foreach (Collider2D enemy in hitEnemies)
             {
-                enemy.GetComponent<AudioSource>().Play();
-                Destroy(enemy.gameObject, 1f);
+                //Debug.Break();
+
+                AudioSource audio = enemy.GetComponent<AudioSource>();
+                if (audio != null)
+                {
+                    audio.Play();
+                }
+
+                Destroy(enemy.gameObject);
             }
         }
 
@@ -192,10 +214,18 @@ public class PlayerController : MonoBehaviour
         if (horizontalMovement > 0)
         {
             sprite.flipX = false;
+            attackPoint.position = new Vector2(transform.position.x + 0.5f, transform.position.y);
         }
         else if (horizontalMovement < 0)
         {
             sprite.flipX = true;
+            attackPoint.position = new Vector2(transform.position.x - 0.5f, transform.position.y);
+        }
+
+        if (transform.position.y <= -7)
+        {
+            //Destroy(gameObject); // not really any point if we load the starting scene?
+            SceneManager.LoadScene("JakeScene", LoadSceneMode.Single);
         }
     }
 

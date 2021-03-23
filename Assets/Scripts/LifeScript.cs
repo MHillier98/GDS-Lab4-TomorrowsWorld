@@ -48,7 +48,7 @@ public class LifeScript : MonoBehaviour
                     heart3.gameObject.SetActive(false);
                     break;
                 }
-            case 0:
+            default:
                 {
                     heart1.gameObject.SetActive(false);
                     heart2.gameObject.SetActive(false);
@@ -58,7 +58,7 @@ public class LifeScript : MonoBehaviour
                     {
                         AudioClip audioClip = player.GetComponent<PlayerController>().playerSounds[1];
                         AudioSource.PlayClipAtPoint(audioClip, Vector2.zero);
-                        //SceneManager.LoadScene("GameOverScene", LoadSceneMode.Single);
+                        SceneManager.LoadScene("JakeScene", LoadSceneMode.Single);
                     }
                     break;
                 }

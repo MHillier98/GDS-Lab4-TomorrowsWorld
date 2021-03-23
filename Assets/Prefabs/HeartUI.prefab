@@ -213,6 +213,7 @@ MonoBehaviour:
   heart1: {fileID: 3477058850672239602}
   heart2: {fileID: 3477058851830267206}
   heart3: {fileID: 3477058850523181088}
+  player: {fileID: 0}
 --- !u!1 &3477058851830267206
 GameObject:
   m_ObjectHideFlags: 0
